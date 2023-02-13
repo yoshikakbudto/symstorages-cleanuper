@@ -24,7 +24,7 @@ dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
 Homepage = "https://github.com/yoshikakbudto/symstorages-cleanuper"
 
 [project.scripts]
-realpython = "cleanuper.__main__:main"
+symstorages-cleanuper = "symstorages-cleanuper.__main__:main"
 
 [build-system]
 requires = ["setuptools>=61.0.0", "wheel"]
@@ -41,4 +41,4 @@ push = false
 [tool.bumpver.file_patterns]
 "pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
 
-"src/cleanuper/__init__.py" = ["{version}"]
+"src/symstorages-cleanuper/__init__.py" = ["{version}"]
