@@ -7,6 +7,6 @@
 dnspython==2.3.0
     # via pymongo
 pymongo==4.3.3
-    # via tg-symstorages-cleanuper (pyproject.toml)
+    # via symstorages-cleanuper (pyproject.toml)
 tomli==2.0.1 ; python_version < "3.11"
-    # via tg-symstorages-cleanuper (pyproject.toml)
+    # via symstorages-cleanuper (pyproject.toml)

@@ -1,2 +1,4 @@
 dist/*
-.pypirc
+src/*.egg-info/
+.*
+!.gitignore
