@@ -1,0 +1,2 @@
+-i https://nexus.targem.ru/repository/pypi/simple
+tg-symstoremgr

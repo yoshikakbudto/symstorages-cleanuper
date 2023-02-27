@@ -1,44 +1,24 @@
-[project]
-name = "symstorages-cleanuper"
-version = "0.0.3"
-description = "Manages metadata files and do a cleanup of the symbols storages."
-readme = "README.md"
-authors = [{ name = "yoshikakbudto", email = "y.kakbudto@yahoo.com" }]
-license = { file = "LICENSE" }
-classifiers = [
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-]
-keywords = ["symbol-storages", "symstorages"]
-dependencies = [
-    "pymongo~=4.3.3",
-    'tomli; python_version < "3.11"',
-]
-requires-python = ">=3.6"
-
-[project.optional-dependencies]
-dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
-
-[project.urls]
-Homepage = "https://github.com/yoshikakbudto/symstorages-cleanuper"
-
-[project.scripts]
-symstorages-cleanuper = "symstorages-cleanuper.__main__:main"
-
 [build-system]
-requires = ["setuptools>=61.0.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
-[tool.bumpver]
-current_version = "0.0.3"
-version_pattern = "MAJOR.MINOR.PATCH"
-commit_message = "bump version {old_version} -> {new_version}"
-commit = true
-tag = true
-push = false
+[tool.poetry]
+name = "tg_symstoremgr"
+version = "0.0.1"
+description = "Targem symbol-servers storage manager"
+authors = ["Indev Dept. <indev@office.targem.ru>"]
+readme = "README.md"
+packages = [{include = "tg_symstoremgr"}]
 
-[tool.bumpver.file_patterns]
-"pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
+[tool.poetry.scripts]
+ssmgr = 'tg_symstoremgr.__main__:main'
 
-"src/symstorages-cleanuper/__init__.py" = ["{version}"]
+[tool.poetry.dependencies]
+python = "^3.10"
+pymongo = "^4.3.3"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.0.0"
+pydocstyle = "^6.3.0"
+
+[tool.poetry_bumpversion.file."tg_symstoremgr/__init__.py"]

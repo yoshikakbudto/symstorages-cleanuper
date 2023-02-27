@@ -9,7 +9,6 @@ The script manages symbols rotation
 Known bugs/features
 - When importing datafiles, there is no check for duplicate documents.
 """
-
 from argparse import ArgumentParser
 import datetime
 import glob
@@ -17,7 +16,12 @@ import logging
 import os
 import json
 
-from pymongo import MongoClient
+if __package__:
+    from .database import SymbolsDatabase
+    from .__init__ import __version__
+else:
+    from database import SymbolsDatabase
+    from __init__ import __version__
 
 def parse_args(args=None):
     """
@@ -25,8 +29,8 @@ def parse_args(args=None):
 
     args parameter is for unittests. It defines arguments values when unittesting.
     """
-    parser = ArgumentParser(prog=os.path.basename(__file__),
-                            description="Symbols cleanuper")
+
+    parser = ArgumentParser(description=f"Symbols storages manager v{__version__}")
     parser.add_argument("--task", required=True,
                         choices=['import-from-datafiles'],
                         help="MongoDb address")
@@ -53,44 +57,6 @@ def parse_args(args=None):
     return parsed
 
 
-class SymbolsDatabase:
-    """Manages symbols metainfo in MongoDb"""
-
-    data = []
-
-    def __init__(self, mongo_addr='localhost', mongo_dbname='symbols_dev', collection_name = 'symbols'):
-        """Init constructor.
-            Initializes the self.collection object
-        """
-        serverSelectionTimeoutMS = 5000
-
-        c = MongoClient(host=f"mongodb://{mongo_addr}/{mongo_dbname}", serverSelectionTimeoutMS=serverSelectionTimeoutMS)
-        client = c[mongo_dbname]
-        self.collection = client[collection_name]
-
-
-    def import_data(self):
-        self.__insert_many(self.data)
-
-
-    def __insert_many(self, documents):
-        """Insert a document list."""
-        logging.debug(f'inserting documents: \n{documents}')
-        self.collection.insert_many(documents)
-
-
-    def update_server_types(self, record={}):
-        """Update the given document with the given record."""
-
-        record['server_types'].append('symstore')
-        newvalues = { "$set": { 'server_types': record['server_types'] } }
-        result = self.collection.update_one({'_id': record['_id']}, newvalues)
-        if result.matched_count > 0:
-            logging.info(f"updated [{record['_id']}] server_types: {record['server_types']}")
-        else:
-            logging.warning(f"document with _id:{record['_id']} wasnt found in database. skip update")
-
-
 def add_data_fields(data):
     """Add some more fields to a document."""
     if type(data) is list:
@@ -103,7 +69,7 @@ def add_data_fields(data):
     return data
 
 
-if __name__ == "__main__":
+def main():
     ARGS = parse_args()
 
     collection = SymbolsDatabase(mongo_addr     = ARGS.mongo_addr,
@@ -117,3 +83,7 @@ if __name__ == "__main__":
             collection.data += add_data_fields(data)
 
         collection.import_data()
+
+
+if __name__ == "__main__":
+    main()
