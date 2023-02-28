@@ -11,7 +11,7 @@ readme = "README.md"
 packages = [{include = "tg_symstoremgr"}]
 
 [tool.poetry.scripts]
-ssmgr = 'tg_symstoremgr.__main__:main'
+tg_symstoremgr = 'tg_symstoremgr.__main__:main'
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -20,5 +20,6 @@ pymongo = "^4.3.3"
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"
 pydocstyle = "^6.3.0"
+pytest = "^7.2.1"
 
 [tool.poetry_bumpversion.file."tg_symstoremgr/__init__.py"]

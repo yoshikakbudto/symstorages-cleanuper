@@ -1,2 +1,5 @@
 [virtualenvs]
 in-project = true
+
+[repositories.targem]
+url = "https://nexus.targem.ru/repository/pypi/"

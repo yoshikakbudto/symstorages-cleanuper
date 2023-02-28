@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-initially born by ID-103038
+"""initially born by ID-103038.
 
 The script manages symbols rotation
 
@@ -18,9 +17,11 @@ import json
 
 if __package__:
     from .database import SymbolsDatabase
+    from .datafile import SymbolsDataFile
     from .__init__ import __version__
 else:
     from database import SymbolsDatabase
+    from datafile import SymbolsDataFile
     from __init__ import __version__
 
 def parse_args(args=None):
@@ -72,11 +73,11 @@ def add_data_fields(data):
 def main():
     ARGS = parse_args()
 
-    collection = SymbolsDatabase(mongo_addr     = ARGS.mongo_addr,
-                                 mongo_dbname   = ARGS.mongo_dbname)
-
     if ARGS.task == 'import-from-datafiles':
+        collection = SymbolsDatabase(mongo_addr     = ARGS.mongo_addr,
+                                mongo_dbname   = ARGS.mongo_dbname)
         datafiles = glob.glob(ARGS.data_files)
+
         for datafile in datafiles:
             with open(datafile, 'r') as f:
                 data = json.load(f)
