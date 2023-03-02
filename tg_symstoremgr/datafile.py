@@ -73,6 +73,6 @@ class SymbolsDataFile():
                     self.data = json.load(f)
                 except Exception as e:
                     if  ignoreerrors:
-                        print(f'[warn] there were errors loading {self.datafile}: \n{e}')
+                        logging.warning(f'there were errors loading {self.datafile}: \n{e}')
                     else:
                         raise

@@ -13,6 +13,7 @@ import datetime
 import glob
 import logging
 import os
+import sys
 import json
 
 if __package__:
@@ -30,11 +31,14 @@ def parse_args(args=None):
 
     args parameter is for unittests. It defines arguments values when unittesting.
     """
+    available_tasks = ('import-from-datafiles',)
 
     parser = ArgumentParser(description=f"Symbols storages manager v{__version__}")
-    parser.add_argument("--task", required=True,
-                        choices=['import-from-datafiles'],
-                        help="MongoDb address")
+    parser.add_argument("--version", '-V', action='store_true',
+                        help="Show program version and exit.")
+    parser.add_argument("--task", required=False,
+                        choices=available_tasks,
+                        help=f"Run task. Available tasks: {available_tasks}")
     parser.add_argument('--verbose', '-v', action='count', default=0,
                         help="Be more verbose. More -v increases verbosity,"
                              "i.e.: -vv will set loglevel to DEBUG. By default loglevel is WARNING")
@@ -72,6 +76,10 @@ def add_data_fields(data):
 
 def main():
     ARGS = parse_args()
+
+    if ARGS.version:
+        print(f"Symbol storages manager v{__version__}")
+        sys.exit()
 
     if ARGS.task == 'import-from-datafiles':
         collection = SymbolsDatabase(mongo_addr     = ARGS.mongo_addr,
